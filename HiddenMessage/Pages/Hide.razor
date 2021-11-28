@@ -1,0 +1,47 @@
+﻿@page "/hide"
+
+@if (messageAcceptLength.HasValue && messageAcceptLength.Value > 0)
+{
+    <div class="alert alert-success">
+        @if (string.IsNullOrEmpty(imageEncodedURL))
+        {
+            <span>Tổng số kí tự: <b style="color: @(message.Length > messageAcceptLength ? "red" : "green")">@message.Length</b>/@messageAcceptLength.Value</span>
+            <hr />
+            <textarea rows="4" @bind-value="message" @bind-value:event="oninput" class="form-control"></textarea>
+            <hr />
+            <button class="btn btn-success" @onclick="OnClickHideMessage">Giấu vào ảnh</button>
+        }
+        else
+        {
+            <button class="btn btn-success" @onclick="OnClickDownloadAsync">Tải về</button>
+            <hr />
+            <img src="@imageEncodedURL" />
+        }
+    </div>
+}
+
+@if (messageAcceptLength.HasValue && messageAcceptLength.Value == 0)
+{
+    <div class="alert alert-danger">
+        Ảnh không hợp lệ! Vui lòng kiểm tra lại.
+    </div>
+}
+
+<div class="alert alert-info">
+    @if (!string.IsNullOrEmpty(imageOriginalURL))
+    {
+        <b>Ảnh gốc</b>
+        <hr />
+        <img src="@imageOriginalURL" />
+    }
+    else
+    {
+        <label for="image">Hình ảnh:</label><br />
+        <InputFile id="image" OnChange="@OnFileChangedAsync" />
+    }
+</div>
+
+
+@code {
+
+}
