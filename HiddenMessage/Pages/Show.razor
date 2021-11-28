@@ -2,19 +2,23 @@
 
 <div class="alert alert-info">
     <label for="image">Hình ảnh:</label><br />
-    <InputFile id="image" OnChange="@OnFileChangedAsync" /><hr />
+    <InputFile id="image" OnChange="@OnFileChangedAsync" />
     @if (!string.IsNullOrEmpty(imageEncodedURL))
     {
-        <img src="@imageEncodedURL" /><hr />
+        <hr />
+        <img src="@imageEncodedURL" />
     }
 
-    @if (string.IsNullOrEmpty(hiddenMessage))
+    @if (!string.IsNullOrEmpty(imageEncodedURL))
     {
+        <hr />
         <button class="btn btn-primary" @onclick="OnClickGetHiddenMessage">Lấy thông điệp</button>
     }
-    else
+
+    @if (!string.IsNullOrEmpty(hiddenMessage))
     {
-        <b>Thông điệp:</b> <span style="color:red">@hiddenMessage</span>
+        <hr />
+        <b><i>Thông điệp:</i></b> <span style="color:red">@hiddenMessage</span>
     }
 </div>
 
