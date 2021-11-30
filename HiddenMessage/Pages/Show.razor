@@ -2,7 +2,7 @@
 
 <div class="alert alert-info">
     <label for="image">Hình ảnh:</label><br />
-    <InputFile id="image" OnChange="@OnFileChangedAsync" />
+    <InputFile id="image" OnChange="@OnFileChangedAsync" accept="image/*" />
     @if (!string.IsNullOrEmpty(imageEncodedURL))
     {
         <hr />
