@@ -1,5 +1,21 @@
 ﻿@page "/show"
 
+@if (!string.IsNullOrEmpty(imageEncodedURL))
+{
+    <div class="alert alert-success">
+        <label for="password">Mật khẩu:</label><br />
+        <input type="text" id="password" @bind="password" class="form-control">
+        <hr />
+        <button class="btn btn-primary" @onclick="OnClickGetHiddenMessage">Lấy thông điệp</button>
+
+        @if (!string.IsNullOrEmpty(hiddenMessage))
+        {
+            <hr />
+            <b><i>Thông điệp:</i></b> <span style="color:red">@hiddenMessage</span>
+        }
+    </div>
+}
+
 <div class="alert alert-info">
     <label for="image">Hình ảnh:</label><br />
     <InputFile id="image" OnChange="@OnFileChangedAsync" accept="image/*" />
@@ -7,18 +23,6 @@
     {
         <hr />
         <img src="@imageEncodedURL" />
-    }
-
-    @if (!string.IsNullOrEmpty(imageEncodedURL))
-    {
-        <hr />
-        <button class="btn btn-primary" @onclick="OnClickGetHiddenMessage">Lấy thông điệp</button>
-    }
-
-    @if (!string.IsNullOrEmpty(hiddenMessage))
-    {
-        <hr />
-        <b><i>Thông điệp:</i></b> <span style="color:red">@hiddenMessage</span>
     }
 </div>
 

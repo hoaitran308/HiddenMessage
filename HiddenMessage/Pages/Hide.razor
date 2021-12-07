@@ -5,9 +5,16 @@
     <div class="alert alert-success">
         @if (string.IsNullOrEmpty(imageEncodedURL))
         {
-            <span>Tổng số kí tự: <b style="color: @(message.Length > messageAcceptLength ? "red" : "green")">@message.Length</b>/@messageAcceptLength.Value</span>
+            @if (messageEncrypted.Length > messageAcceptLength)
+            {
+                <h3 style="color: red">Độ dài tin nhắn không hợp lệ.</h3><hr />
+            }
+
+            <label for="message">Tin nhắn:</label><br />
+            <textarea id="message" rows="4" @bind="message" class="form-control"></textarea>
             <hr />
-            <textarea rows="4" @bind-value="message" @bind-value:event="oninput" class="form-control"></textarea>
+            <label for="password">Mật khẩu:</label><br />
+            <input type="text" id="password" @bind="password" class="form-control">
             <hr />
             <button class="btn btn-success" @onclick="OnClickHideMessage">Giấu vào ảnh</button>
         }

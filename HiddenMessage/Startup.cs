@@ -22,6 +22,8 @@ namespace HiddenMessage
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddSingleton<DESService>();
+            services.AddSingleton<ImageService>();
             services.AddSingleton<SteganographyService>();
         }
 
