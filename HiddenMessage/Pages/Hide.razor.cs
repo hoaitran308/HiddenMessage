@@ -56,13 +56,12 @@ namespace HiddenMessage.Pages
         {
             string fileName = @$"{DateTime.Now.ToFileTime()}.jpg";
 
-            MemoryStream ms = new();
-            imageBitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+            byte[] bytes = ImageService.GetImageBytes(imageBitmap);
 
             await JSRuntime.InvokeVoidAsync(
                 "jsSaveAsFile",
                 fileName,
-                Convert.ToBase64String(ms.ToArray())
+                Convert.ToBase64String(bytes)
             );
         }
     }

@@ -24,8 +24,19 @@ namespace HiddenMessage.Services
         public string GetImageUri(Bitmap bitmap)
         {
             MemoryStream memoryStream = new();
+
             bitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+
             return $"data:image/jpeg;base64,{Convert.ToBase64String(memoryStream.ToArray())}";
+        }
+
+        public byte[] GetImageBytes(Bitmap bitmap)
+        {
+            MemoryStream ms = new();
+
+            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+
+            return ms.ToArray();
         }
     }
 }

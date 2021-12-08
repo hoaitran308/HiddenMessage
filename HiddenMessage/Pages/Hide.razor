@@ -23,6 +23,9 @@
             <button class="btn btn-success" @onclick="OnClickDownloadAsync">Tải về</button>
             <hr />
             <img src="@imageEncodedURL" />
+            <hr />
+            <label for="message">Tin nhắn mã hóa:</label><br />
+            <textarea id="message" rows="4" @bind="messageEncrypted" class="form-control"></textarea>
         }
     </div>
 }
