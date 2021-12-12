@@ -34,7 +34,7 @@ namespace HiddenMessage.Pages
             }
 
             imageBitmap = await ImageService.GetBitmapAsync(e.File);
-            messageAcceptLength = (imageBitmap.Height * imageBitmap.Width - 32) / 8;
+            messageAcceptLength = 3 * (imageBitmap.Height * imageBitmap.Width - 32) / 8;
             imageOriginalURL = ImageService.GetImageUri(imageBitmap);
         }
 
