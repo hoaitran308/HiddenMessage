@@ -32,7 +32,8 @@ namespace HiddenMessage.Services
                     {
                         Color color = bitmap.GetPixel(x, y);
 
-                        int[] rgb = new int[3];
+                        int[] rgb = { color.R, color.G, color.B };
+
                         for (int k = 0; k < 3 && messIndex != bitMessage.Length; k++)
                         {
                             byte byteColor = k == 0 ? color.R : k == 1 ? color.G : color.B;
@@ -40,7 +41,7 @@ namespace HiddenMessage.Services
                             BitArray bitArray = byteColor.ToBinary();
                             bitArray.SetBit(bitMessage[messIndex++]);
 
-                            rgb[k] = bitArray.ToNumeric(); 
+                            rgb[k] = bitArray.ToNumeric();
                         }
 
                         bitmap.SetPixel(x, y, Color.FromArgb(rgb[0], rgb[1], rgb[2]));
