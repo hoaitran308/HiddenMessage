@@ -17,9 +17,9 @@ namespace HiddenMessage.Services
             for (int y = 0; y < 32; y++)
             {
                 Color color = bitmap.GetPixel(0, y);
-                BitArray bitArray = color.ToArgb().ToBinary();
+                BitArray bitArray = color.B.ToBinary();
                 bitArray.SetBit(bitLengthMessage[y]);
-                bitmap.SetPixel(0, y, Color.FromArgb(bitArray.ToNumeric()));
+                bitmap.SetPixel(0, y, Color.FromArgb(color.R, color.G, bitArray.ToNumeric()));
             }
 
             int messIndex = 0;
@@ -32,10 +32,18 @@ namespace HiddenMessage.Services
                     {
                         Color color = bitmap.GetPixel(x, y);
 
-                        BitArray bitArray = color.ToArgb().ToBinary();
-                        bitArray.SetBit(bitMessage[messIndex++]);
+                        int[] rgb = new int[3];
+                        for (int k = 0; k < 3 && messIndex != bitMessage.Length; k++)
+                        {
+                            byte byteColor = k == 0 ? color.R : k == 1 ? color.G : color.B;
 
-                        bitmap.SetPixel(x, y, Color.FromArgb(bitArray.ToNumeric()));
+                            BitArray bitArray = byteColor.ToBinary();
+                            bitArray.SetBit(bitMessage[messIndex++]);
+
+                            rgb[k] = bitArray.ToNumeric(); 
+                        }
+
+                        bitmap.SetPixel(x, y, Color.FromArgb(rgb[0], rgb[1], rgb[2]));
                     }
                 }
             }
@@ -50,7 +58,7 @@ namespace HiddenMessage.Services
             for (int y = 0; y < 32; y++)
             {
                 Color color = bitmap.GetPixel(0, y);
-                BitArray bitArray = color.ToArgb().ToBinary();
+                BitArray bitArray = color.B.ToBinary();
                 bitLengthMessage = (bitArray[0] ? "1" : "0") + bitLengthMessage;
             }
 
@@ -66,9 +74,13 @@ namespace HiddenMessage.Services
                     {
                         Color color = bitmap.GetPixel(x, y);
 
-                        BitArray bitArray = color.ToArgb().ToBinary();
+                        for (int k = 0; k < 3 && lengthMessage != bitMessage.Length; k++)
+                        {
+                            byte byteColor = k == 0 ? color.R : k == 1 ? color.G : color.B;
 
-                        bitMessage = (bitArray[0] ? "1" : "0") + bitMessage;
+                            BitArray bitArray = byteColor.ToBinary();
+                            bitMessage = (bitArray[0] ? "1" : "0") + bitMessage;
+                        }
                     }
                 }
             }

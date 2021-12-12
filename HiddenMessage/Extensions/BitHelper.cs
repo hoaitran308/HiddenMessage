@@ -18,6 +18,12 @@ namespace HiddenMessage.Extensions
             return bitArray;
         }
 
+        public static BitArray ToBinary(this byte number)
+        {
+            BitArray bitArray = new(new byte[] { number });
+            return bitArray;
+        }
+
         public static int ToNumeric(this BitArray bitArray)
         {
             int[] array = new int[1];
