@@ -36,9 +36,8 @@ namespace HiddenMessage.Services
 
                         for (int k = 0; k < 3 && messIndex != bitMessage.Length; k++)
                         {
-                            byte byteColor = k == 0 ? color.R : k == 1 ? color.G : color.B;
+                            BitArray bitArray = rgb[k].ToBinary();
 
-                            BitArray bitArray = byteColor.ToBinary();
                             bitArray.SetBit(bitMessage[messIndex++]);
 
                             rgb[k] = bitArray.ToNumeric();
