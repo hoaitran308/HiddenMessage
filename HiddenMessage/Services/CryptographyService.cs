@@ -19,10 +19,12 @@ namespace HiddenMessage.Services
             {
                 using TripleDES desCryptoProvider = TripleDES.Create();
 
-                byte[] byteHash = Convert.FromBase64String(key);
+                string keyHash = MD5Hash(key);
+                byte[] byteHash = Convert.FromBase64String(keyHash);
+                byte[] byteBuff = Encoding.UTF8.GetBytes(source);
+
                 desCryptoProvider.Key = byteHash;
                 desCryptoProvider.Mode = CipherMode.ECB;
-                byte[] byteBuff = Encoding.UTF8.GetBytes(source);
 
                 string encoded = Convert.ToBase64String(desCryptoProvider.CreateEncryptor().TransformFinalBlock(byteBuff, 0, byteBuff.Length));
                 return encoded;
@@ -38,12 +40,13 @@ namespace HiddenMessage.Services
             try
             {
                 using TripleDES desCryptoProvider = TripleDES.Create();
-                using MD5 hashMD5Provider = MD5.Create();
 
-                byte[] byteHash = Convert.FromBase64String(key);
+                string keyHash = MD5Hash(key);
+                byte[] byteHash = Convert.FromBase64String(keyHash);
+                byte[] byteBuff = Convert.FromBase64String(encodedText);
+
                 desCryptoProvider.Key = byteHash;
                 desCryptoProvider.Mode = CipherMode.ECB;
-                byte[] byteBuff = Convert.FromBase64String(encodedText);
 
                 string plaintext = Encoding.UTF8.GetString(desCryptoProvider.CreateDecryptor().TransformFinalBlock(byteBuff, 0, byteBuff.Length));
                 return plaintext;
