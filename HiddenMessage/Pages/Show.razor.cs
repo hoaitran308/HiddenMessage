@@ -13,7 +13,7 @@ namespace HiddenMessage.Pages
         private string password = "";
         private Bitmap imageBitmap;
 
-        [Inject] private DESService DESService { get; set; }
+        [Inject] private CryptographyService CryptographyService { get; set; }
         [Inject] private ImageService ImageService { get; set; }
         [Inject] private SteganographyService SteganographyService { get; set; }
 
@@ -36,7 +36,7 @@ namespace HiddenMessage.Pages
             }
 
             string messageEncrypted = SteganographyService.LSBDecode(imageBitmap);
-            hiddenMessage = DESService.Decrypt(messageEncrypted, password);
+            hiddenMessage = CryptographyService.TripleDESDecrypt(messageEncrypted, password);
         }
     }
 }

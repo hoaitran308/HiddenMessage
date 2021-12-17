@@ -17,11 +17,12 @@ namespace HiddenMessage.Pages
         private string message;
         private string password;
         private string messageEncrypted = "";
+        private string passwordEncrypted = "";
         private Bitmap imageBitmap;
         private int? messageAcceptLength;
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
-        [Inject] private DESService DESService { get; set; }
+        [Inject] private CryptographyService CryptographyService { get; set; }
         [Inject] private ImageService ImageService { get; set; }
         [Inject] private SteganographyService SteganographyService { get; set; }
 
@@ -40,7 +41,8 @@ namespace HiddenMessage.Pages
 
         private void OnClickHideMessage()
         {
-            messageEncrypted = DESService.Encrypt(message, password);
+            passwordEncrypted = CryptographyService.MD5Hash(password);
+            messageEncrypted = CryptographyService.TripleDESEncrypt(message, passwordEncrypted);
 
             if (messageEncrypted.Length > messageAcceptLength
                 || string.IsNullOrEmpty(password))

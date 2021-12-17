@@ -4,22 +4,25 @@ using System.Security.Cryptography;
 
 namespace HiddenMessage.Services
 {
-    public class DESService
+    public class CryptographyService
     {
-        public string Encrypt(string source, string key)
+        public string MD5Hash(string source)
+        {
+            using MD5 hashMD5Provider = MD5.Create();
+            byte[] byteHash = hashMD5Provider.ComputeHash(Encoding.UTF8.GetBytes(source));
+            return Convert.ToBase64String(byteHash);
+        }
+
+        public string TripleDESEncrypt(string source, string key)
         {
             try
             {
                 using TripleDES desCryptoProvider = TripleDES.Create();
-                using MD5 hashMD5Provider = MD5.Create();
 
-                byte[] byteHash;
-                byte[] byteBuff;
-
-                byteHash = hashMD5Provider.ComputeHash(Encoding.UTF8.GetBytes(key));
+                byte[] byteHash = Convert.FromBase64String(key);
                 desCryptoProvider.Key = byteHash;
                 desCryptoProvider.Mode = CipherMode.ECB;
-                byteBuff = Encoding.UTF8.GetBytes(source);
+                byte[] byteBuff = Encoding.UTF8.GetBytes(source);
 
                 string encoded = Convert.ToBase64String(desCryptoProvider.CreateEncryptor().TransformFinalBlock(byteBuff, 0, byteBuff.Length));
                 return encoded;
@@ -30,20 +33,17 @@ namespace HiddenMessage.Services
             }
         }
 
-        public string Decrypt(string encodedText, string key)
+        public string TripleDESDecrypt(string encodedText, string key)
         {
             try
             {
                 using TripleDES desCryptoProvider = TripleDES.Create();
                 using MD5 hashMD5Provider = MD5.Create();
 
-                byte[] byteHash;
-                byte[] byteBuff;
-
-                byteHash = hashMD5Provider.ComputeHash(Encoding.UTF8.GetBytes(key));
+                byte[] byteHash = Convert.FromBase64String(key);
                 desCryptoProvider.Key = byteHash;
                 desCryptoProvider.Mode = CipherMode.ECB;
-                byteBuff = Convert.FromBase64String(encodedText);
+                byte[] byteBuff = Convert.FromBase64String(encodedText);
 
                 string plaintext = Encoding.UTF8.GetString(desCryptoProvider.CreateDecryptor().TransformFinalBlock(byteBuff, 0, byteBuff.Length));
                 return plaintext;

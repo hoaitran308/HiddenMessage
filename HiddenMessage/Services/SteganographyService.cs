@@ -14,12 +14,24 @@ namespace HiddenMessage.Services
 
             BitArray bitLengthMessage = bitMessage.Length.ToBinary();
 
-            for (int y = 0; y < 32; y++)
+            int lengthIndex = 0;
+
+            for (int y = 0; y < 11; y++)
             {
                 Color color = bitmap.GetPixel(0, y);
-                BitArray bitArray = color.B.ToBinary();
-                bitArray.SetBit(bitLengthMessage[y]);
-                bitmap.SetPixel(0, y, Color.FromArgb(color.R, color.G, bitArray.ToNumeric()));
+
+                int[] rgb = { color.R, color.G, color.B };
+
+                for (int k = 0; k < 3 && lengthIndex != 32; k++)
+                {
+                    BitArray bitArray = rgb[k].ToBinary();
+
+                    bitArray.SetBit(bitLengthMessage[lengthIndex++]);
+
+                    rgb[k] = bitArray.ToNumeric();
+                }
+
+                bitmap.SetPixel(0, y, Color.FromArgb(rgb[0], rgb[1], rgb[2]));
             }
 
             int messIndex = 0;
@@ -55,11 +67,18 @@ namespace HiddenMessage.Services
         {
             string bitLengthMessage = "";
 
-            for (int y = 0; y < 32; y++)
+            for (int y = 0; y < 11; y++)
             {
                 Color color = bitmap.GetPixel(0, y);
-                BitArray bitArray = color.B.ToBinary();
-                bitLengthMessage = (bitArray[0] ? "1" : "0") + bitLengthMessage;
+
+                for (int k = 0; k < 3 && bitLengthMessage.Length != 32; k++)
+                {
+                    byte byteColor = k == 0 ? color.R : k == 1 ? color.G : color.B;
+
+                    BitArray bitArray = byteColor.ToBinary();
+
+                    bitLengthMessage = (bitArray[0] ? "1" : "0") + bitLengthMessage;
+                }
             }
 
             int lengthMessage = Convert.ToInt32(bitLengthMessage, 2);
@@ -79,6 +98,7 @@ namespace HiddenMessage.Services
                             byte byteColor = k == 0 ? color.R : k == 1 ? color.G : color.B;
 
                             BitArray bitArray = byteColor.ToBinary();
+
                             bitMessage = (bitArray[0] ? "1" : "0") + bitMessage;
                         }
                     }
