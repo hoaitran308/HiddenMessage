@@ -40,7 +40,7 @@ namespace HiddenMessage.Services
             {
                 for (int x = 0; x < bitmap.Width && messIndex != bitMessage.Length; x++)
                 {
-                    if (!(x == 0 && y < 32))
+                    if (!(x == 0 && y < 11))
                     {
                         Color color = bitmap.GetPixel(x, y);
 
@@ -89,7 +89,7 @@ namespace HiddenMessage.Services
             {
                 for (int x = 0; x < bitmap.Width && lengthMessage != bitMessage.Length; x++)
                 {
-                    if (!(x == 0 && y < 32))
+                    if (!(x == 0 && y < 11))
                     {
                         Color color = bitmap.GetPixel(x, y);
 
